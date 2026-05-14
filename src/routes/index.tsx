@@ -43,7 +43,7 @@ function Index() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <button onClick={() => setTab("home")} className="flex items-center gap-2.5 text-left">
             <div className="leading-tight">
-              <img src={"./src/assets/rhlogusu.png"} alt="Reptec" className="h-8" />
+              <img src={"./src/assets/rhlogusu.png"} alt="Reptec" className="h-13" />
             </div>
           </button>
 
@@ -154,21 +154,6 @@ function HomeSection({ onNavigate }: { onNavigate: (t: TabId) => void }) {
             <br></br>
             <br></br> — Mario Sergio Cortella
           </p>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <button
-              onClick={() => onNavigate("conduta")}
-              className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90"
-              style={{ boxShadow: "var(--shadow-elegant)" }}
-            >
-              Ler Código de Conduta
-            </button>
-            <button
-              onClick={() => onNavigate("manual")}
-              className="rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold transition-all hover:bg-secondary"
-            >
-              Manual do Colaborador →
-            </button>
-          </div>
         </div>
         <div
           className="relative aspect-[4/5] overflow-hidden rounded-3xl"
@@ -1198,37 +1183,55 @@ function AccordionItem({
 }
 
 const manualSecoes = [
-  { id: "beneficios", label: "Benefícios" },
-  { id: "horarios", label: "Horários" },
-  { id: "ferramentas", label: "Ferramentas" },
+  { id: "qualidade", label: "Política De Qualidade" },
+  { id: "seguranca", label: "Política De Segurança" },
+  { id: "ralacionamentos", label: "Relacionamento Interpessoal" },
+  { id: "direitos", label: "Direitos E Deveres Do Colaborador" },
+  { id: "beneficios", label: "Benefícios/Convênios" },
+  { id: "condutas", label: "Restrições E Condutas Proibidas" },
+  { id: "patrimonial", label: "Segurança Patrimonial" },
+  { id: "bensParticulares", label: "Acesso À Empresa Com Carro Particular" },
+  { id: "direitosAIMagens", label: "Cessão De Direitos Autorais De Imagem" },
+  { id: "saudeNoTrabalho", label: "Saúde No Trabalho" },
+  { id: "protecaoDeDados", label: "Privacidade E Proteção De Dados Pessoais" },
+  { id: "segurancaDoTrabalho", label: "Segurança No Trabalho" },
+  { id: "diretrizesGerais", label: "Diretrizes Gerais De Segurança" },
 ] as const;
 
 type ManualId = (typeof manualSecoes)[number]["id"];
 
 function ManualSection() {
-  const [sec, setSec] = useState<ManualId>("beneficios");
+  const [sec, setSec] = useState<ManualId>("qualidade");
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 px-4 sm:px-6 lg:px-8">
       <header className="space-y-3 max-w-3xl">
-        <div className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-          Versão 1.5 · 01/04/2026
-        </div>
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight">Manual do Colaborador</h1>
-        <p className="text-muted-foreground text-lg leading-relaxed">
-          Tudo que você precisa saber sobre benefícios, jornada de trabalho e ferramentas no dia a
-          dia da REPTEC.
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
+          <span
+            style={{
+              background: "var(--gradient-accent)",
+              backgroundClip: "text",
+              color: "transparent",
+            }}
+          >
+            Manual do Colaborador
+          </span>
+        </h1>
+        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+          Este manual reúne as principais informações sobre benefícios, jornada de trabalho, normas,
+          condutas e ferramentas utilizadas no dia a dia da Reptec, garantindo mais clareza,
+          orientação e apoio aos colaboradores em sua rotina profissional.
         </p>
       </header>
 
-      <div className="grid gap-8 md:grid-cols-[220px_1fr]">
-        <aside className="md:sticky md:top-24 md:self-start">
-          <div className="flex md:flex-col gap-1 overflow-x-auto md:overflow-visible">
+      <div className="flex flex-col lg:grid lg:grid-cols-[280px_1fr] gap-8">
+        <aside className="lg:sticky lg:top-24 lg:self-start -mx-4 sm:mx-0">
+          <div className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible px-4 sm:px-0 pb-2 lg:pb-0">
             {manualSecoes.map((s) => (
               <button
                 key={s.id}
                 onClick={() => setSec(s.id)}
-                className={`whitespace-nowrap rounded-lg px-4 py-2.5 text-sm font-medium text-left transition ${
+                className={`whitespace-nowrap rounded-lg px-4 py-2.5 text-sm font-medium text-left transition flex-shrink-0 ${
                   sec === s.id
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-secondary"
@@ -1240,11 +1243,21 @@ function ManualSection() {
           </div>
         </aside>
 
-        <div className="space-y-6">
+        <main className="min-w-0 space-y-6">
+          {sec === "qualidade" && <Qualidade />}
+          {sec === "seguranca" && <Seguranca />}
+          {sec === "ralacionamentos" && <Ralacionamentos />}
+          {sec === "direitos" && <Direitos />}
           {sec === "beneficios" && <Beneficios />}
-          {sec === "horarios" && <Horarios />}
-          {sec === "ferramentas" && <Ferramentas />}
-        </div>
+          {sec === "condutas" && <Condutas />}
+          {sec === "patrimonial" && <Patrimonial />}
+          {sec === "bensParticulares" && <BensParticulares />}
+          {sec === "direitosAIMagens" && <DireitosAIMagens />}
+          {sec === "saudeNoTrabalho" && <SaudeNoTrabalho />}
+          {sec === "protecaoDeDados" && <ProtecaoDeDados />}
+          {sec === "segurancaDoTrabalho" && <SegurancaDoTrabalho />}
+          {sec === "diretrizesGerais" && <DiretrizesGerais />}
+        </main>
       </div>
     </div>
   );
@@ -1262,98 +1275,778 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
   );
 }
 
-function Beneficios() {
+function Qualidade() {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
-      <Card title="Vale-Transporte">
-        Cálculo baseado nos dias úteis do mês. Participação do colaborador com desconto de 6% do
-        salário base, até o limite do valor disponibilizado.
+      <Card title="Política de Qualidade">
+        <ul className="list-disc pl-4 space-y-1">
+          <li>Prestar serviços e fornecer produtos com qualidade.</li>
+          <li>Capacitar e desenvolver nossos colaboradores.</li>
+          <li>Relacionamentos baseados na confiabilidade com parceiros e fornecedores.</li>
+        </ul>
       </Card>
-      <Card title="Café da Manhã e Tarde">
-        Concedidos dentro da jornada de trabalho — disponibilizado para todos os setores nos
-        horários definidos por área.
+
+      <Card title="Gestão e Melhoria">
+        <ul className="list-disc pl-4 space-y-1">
+          <li>Compromisso com a melhoria contínua e eficácia do Sistema de Gestão.</li>
+          <li>Atendimento aos requisitos dos clientes e requisitos legais aplicáveis.</li>
+        </ul>
       </Card>
-      <Card title="Convênio Médico">
-        Possibilidade de incluir familiares previstos em lei. Disponível após o término do contrato
-        de experiência. Cancelamento segue carências contratuais.
+
+      <Card title="Importância para o Colaborador">
+        <ul className="list-disc pl-4 space-y-1">
+          <li>Melhoria de produtividade e clima organizacional.</li>
+          <li>Trabalho padronizado seguro e equipe motivada.</li>
+          <li>Menores índices de retrabalho no dia a dia.</li>
+        </ul>
       </Card>
-      <Card title="Clube Aquático">
-        Espaço de lazer e bem-estar disponibilizado aos colaboradores como benefício adicional.
+
+      <Card title="Responsabilidade Coletiva">
+        A qualidade acontece com o trabalho conjunto de TODAS as pessoas envolvidas na fabricação do
+        produto e/ou serviço!
       </Card>
-      <Card title="Férias">
-        Possibilidade de fracionamento em até 3 períodos: um deles com no mínimo 14 dias e os demais
-        com no mínimo 10 dias.
-      </Card>
-      <Card title="Capacitação">
-        Investimento contínuo em desenvolvimento e capacitação dos colaboradores como pilar da
-        Política de Qualidade.
+
+      <Card title="Nosso Compromisso">
+        A qualidade começa por cada um de nós, em nosso local de trabalho e em nossas atividades, e
+        deve ser compartilhada por todos.
       </Card>
     </div>
   );
 }
 
-function Horarios() {
+function Seguranca() {
   return (
     <div className="space-y-4">
-      <Card title="Jornada de Trabalho">
-        Controle por Ponto Eletrônico. Saídas antecipadas, atrasos ou ausências intrajornada devem
-        ser registradas, salvo as exceções previstas no manual.
+      <Card title="Política de Segurança Reptec">
+        A Reptec, atuante na fabricação de uniformes e EPIs, tem como compromisso proteger a
+        integridade humana, promovendo um ambiente seguro e saudável para colaboradores, parceiros e
+        clientes. A vida é o nosso bem mais precioso e nada supera seu valor.
       </Card>
+
       <div className="grid gap-4 sm:grid-cols-2">
-        <Card title="Setor de Produção">
+        <Card title="Nossa Missão e Cultura">
           <ul className="space-y-1.5">
             <li>
-              <span className="font-medium text-foreground">Café da manhã:</span> 07h00 às 07h10
+              <span className="font-medium text-foreground">Prevenção:</span> Acreditamos que todos
+              os acidentes, lesões e doenças ocupacionais podem e devem ser evitados.
             </li>
             <li>
-              <span className="font-medium text-foreground">Café da tarde:</span> 15h00 às 16h00
+              <span className="font-medium text-foreground">Cultura:</span> Segurança e bem-estar
+              são plenamente integrados e são uma responsabilidade compartilhada por todos.
             </li>
           </ul>
         </Card>
-        <Card title="Demais Setores">
-          Horários definidos conforme escala de cada área. Consulte o gestor imediato para detalhes
-          específicos.
+
+        <Card title="Gestão de Riscos">
+          <ul className="space-y-1.5">
+            <li>
+              <span className="font-medium text-foreground">Identificação:</span> Avaliação e
+              redução de riscos decorrentes de fatores naturais, tecnológicos e humanos.
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Conformidade:</span> Controle de riscos
+              assegurando o cumprimento das normas vigentes e diretrizes legais.
+            </li>
+          </ul>
         </Card>
       </div>
-      <Card title="Viagens com Veículos da Empresa">
-        É proibido circular com veículos da empresa entre 19h00 e 06h00 durante viagens.
+
+      <Card title="Compromisso com a Proteção">
+        Nossa prioridade é garantir a melhor proteção em tudo, promovendo uma cultura de prevenção e
+        conscientização que orienta nossas ações diárias, estando presente em nossa Missão, Visão e
+        Valores.
       </Card>
     </div>
   );
 }
 
-function Ferramentas() {
+function Ralacionamentos() {
   return (
     <div className="space-y-4">
-      <Card title="Tecnologia da Informação">
-        Os recursos de TI são ferramentas de trabalho. O uso deve ser responsável, dentro das normas
-        da organização e com proteção de dados confidenciais.
+      <Card title="Harmonia e Respeito">
+        Os colaboradores devem cooperar para um ambiente harmonioso, tratando líderes, liderados e
+        pares com educação, respeito e gentileza. A empatia é o nosso principal recurso para a
+        resolução de conflitos.
       </Card>
-      <Card title="Equipamentos de Proteção Individual (EPI)">
-        Uso obrigatório dos EPIs fornecidos pela empresa. Conscientize colegas quando estiverem
-        inadequados — segurança é um compromisso coletivo.
+
+      <Card title="Tolerância Zero a Abusos">
+        A Reptec repele toda forma de abuso de poder, assédio moral, sexual ou violência (física,
+        moral ou psicológica). Vítimas ou testemunhas devem denunciar ao Departamento de Pessoal,
+        Gerência ou Direção.
       </Card>
-      <Card title="Saúde Ocupacional">
-        Cumprimento das normas de saúde ocupacional, incluindo exames médicos obrigatórios conforme
-        programas de saúde da empresa.
+
+      <Card title="Diversidade e Inclusão">
+        É repreensível qualquer atitude discriminatória baseada em raça, religião, idade,
+        deficiência, orientação sexual ou qualquer outra condição. Autores podem responder nas
+        esferas trabalhista e criminal.
       </Card>
-      <div className="rounded-2xl border border-border bg-secondary/40 p-6">
-        <h3 className="font-semibold">Contatos Internos</h3>
-        <ul className="mt-3 grid gap-2 sm:grid-cols-2 text-sm text-muted-foreground">
-          <li>
-            <span className="font-medium text-foreground">RH:</span> 4051 / 4094 / 4037
-          </li>
-          <li>
-            <span className="font-medium text-foreground">Ambulância:</span> 192
-          </li>
-          <li>
-            <span className="font-medium text-foreground">Polícia Militar:</span> 190
-          </li>
-          <li>
-            <span className="font-medium text-foreground">Ouvidoria:</span> ouvidoria@reptec.com.br
-          </li>
-        </ul>
+
+      <Card title="Relações com Terceiros">
+        As normas de conduta e respeito estendem-se ao contato com clientes, fornecedores e qualquer
+        pessoa com quem o colaborador se relacione em nome da Reptec.
+      </Card>
+    </div>
+  );
+}
+function Direitos() {
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card title="Pagamento e Salário">
+          <ul className="space-y-1.5 text-sm">
+            <li>
+              • <span className="font-medium">Mensal:</span> Até o 5º dia útil do mês subsequente
+              via depósito bancário.
+            </li>
+            <li>
+              • <span className="font-medium">Adiantamento:</span> Todo dia 20, valor de 40% do
+              salário base (proporcional aos dias trabalhados).
+            </li>
+          </ul>
+        </Card>
+        <Card title="Disposições Legais">
+          Os direitos e deveres decorrem do contrato, legislação vigente e normas coletivas. Itens
+          de negociação coletiva são informativos e podem ser alterados pelos respectivos
+          instrumentos.
+        </Card>
       </div>
+      <Card title="Jornada de Trabalho e Intervalos">
+        <div className="grid gap-4 sm:grid-cols-2 mt-2">
+          <div>
+            <p className="font-medium text-foreground underline">Horários Padrão (Seg à Sex):</p>
+            <ul className="text-sm mt-1">
+              <li>
+                • <span className="font-medium">Produção:</span> 07h às 16h48 (1h de intervalo).
+              </li>
+              <li>
+                • <span className="font-medium">Adm/Comercial:</span> 07h45 às 17h45 (1h12 de
+                intervalo).
+              </li>
+              <li>
+                • <span className="font-medium">Sábados:</span> Compensados na carga diária.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-foreground underline">Horários de Café:</p>
+            <ul className="text-sm mt-1">
+              <li>
+                • <span className="font-medium">Produção:</span> Manhã (07h-07h10) | Tarde (10 min).
+              </li>
+              <li>
+                • <span className="font-medium">Demais:</span> Manhã (07h45-07h55) | Tarde (10 min).
+              </li>
+            </ul>
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card title="Registro de Ponto">
+          <p className="text-sm">
+            Obrigatório no início, término e intervalos. Saídas antecipadas e atrasos também devem
+            ser registrados.
+          </p>
+          <p className="text-sm font-bold text-destructive mt-2">
+            Atenção: É proibido e considerado falta grave registrar o ponto de outro colaborador.
+          </p>
+        </Card>
+        <Card title="Tolerâncias e Atrasos">
+          <ul className="text-sm space-y-1">
+            <li>
+              • <span className="font-medium">Limite diário:</span> 10 minutos (não conta como extra
+              ou atraso).
+            </li>
+            <li>
+              • <span className="font-medium">Atraso 15 min:</span> Requer autorização do gestor
+              para ingressar na empresa.
+            </li>
+            <li>
+              • <span className="font-medium">Hora Extra:</span> Máximo 1h12 diária, com autorização
+              prévia.
+            </li>
+          </ul>
+        </Card>
+      </div>
+
+      <Card title="Licenças e Ausências Justificadas">
+        <div className="grid gap-4 sm:grid-cols-2 text-sm">
+          <ul className="space-y-1">
+            <li>
+              • <span className="font-medium">Casamento:</span> 03 dias.
+            </li>
+            <li>
+              • <span className="font-medium">Falecimento (parentes diretos/sogros):</span> 02 dias.
+            </li>
+            <li>
+              • <span className="font-medium">Licença Paternidade:</span> 05 dias corridos.
+            </li>
+            <li>
+              • <span className="font-medium">Doação de Sangue:</span> 01 dia por ano.
+            </li>
+          </ul>
+          <ul className="space-y-1">
+            <li>
+              • <span className="font-medium">Maternidade:</span> 120 dias.
+            </li>
+            <li>
+              • <span className="font-medium">Acompanhamento Filho (menor de 12 anos):</span> Até 6
+              dias/ano (limite 4h por atestado).
+            </li>
+            <li>
+              • <span className="font-medium">Prazo de Entrega:</span> Documentos/atestados devem
+              ser entregues ao DP em até 48h.
+            </li>
+          </ul>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function Beneficios() {
+  return (
+    <div className="space-y-4">
+      <Card title="Margem Consignável e Regras Gerais">
+        <p className="text-sm">
+          O total de descontos facultativos (convênios/empréstimos) não pode exceder{" "}
+          <strong>20% da remuneração disponível</strong>. A remuneração disponível é o salário base
+          (mais comissões) menos os descontos obrigatórios (INSS, IRRF, Pensão e VT).
+        </p>
+      </Card>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card title="Cartão Alimentação e Premiação">
+          <ul className="space-y-1.5 text-sm">
+            <li>
+              • <span className="font-medium">Assiduidade:</span> Destinado a quem não possui
+              ausências (faltas ou atestados) no mês.
+            </li>
+            <li>
+              • <span className="font-medium">Mínimo:</span> Necessário ter trabalhado ao menos 15
+              dias no mês de referência.
+            </li>
+            <li>
+              • <span className="font-medium">Premiação:</span> Segue metas específicas por setor ou
+              política salarial.
+            </li>
+          </ul>
+        </Card>
+        <Card title="Vale Transporte">
+          <ul className="space-y-1.5 text-sm">
+            <li>
+              • <span className="font-medium">Custo:</span> Desconto de 6% do salário base, limitado
+              ao valor recebido.
+            </li>
+            <li>
+              • <span className="font-medium">Prazos:</span> Solicitação ou cancelamento até o dia
+              20 para o mês seguinte.
+            </li>
+            <li>
+              • <span className="font-medium">Uso:</span> Exclusivo para o trajeto
+              residência-trabalho e vice-versa.
+            </li>
+          </ul>
+        </Card>
+      </div>
+      <Card title="Convênios (Disponíveis após Contrato de Experiência)">
+        <div className="grid gap-4 sm:grid-cols-2 mt-2">
+          <div className="space-y-2 text-sm">
+            <p>
+              <strong>🩺 Saúde e Odonto:</strong> Planos com mensalidades atrativas e possibilidade
+              de incluir familiares. Coparticipações em exames e consultas são por conta do
+              colaborador.
+            </p>
+            <p>
+              <strong>💳 Cartão Consumo:</strong> Limite de 10% da remuneração para uso em rede
+              conveniada. Fechamento dia 19 de cada mês.
+            </p>
+          </div>
+          <div className="space-y-2 text-sm">
+            <p>
+              <strong>🏊 Clube Aquático:</strong> Plano familiar com valores diferenciados. Sem
+              carência para uso, mas com carência para cancelamento.
+            </p>
+            <p>
+              <strong>💰 Empréstimo Consignado:</strong> Taxas diferenciadas. Em caso de rescisão, a
+              empresa retém até 30% das verbas para amortização.
+            </p>
+          </div>
+        </div>
+      </Card>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card title="Seguro de Vida">
+          Adesão automática na admissão sem custo para o colaborador. Cobertura para morte,
+          invalidez por aposentadoria e despesas fúnebres.
+        </Card>
+        <Card title="Regras de Férias">
+          <ul className="space-y-1 text-sm">
+            <li>
+              • <span className="font-medium">Aquisição:</span> A cada 12 meses trabalhados.
+            </li>
+            <li>
+              • <span className="font-medium">Fracionamento:</span> Até 2 períodos (um de no mínimo
+              14 dias e outro de no mínimo 10 dias).
+            </li>
+            <li>
+              • <span className="font-medium">Faltas:</span> O número de dias de férias pode ser
+              reduzido por faltas injustificadas.
+            </li>
+          </ul>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function Condutas() {
+  return (
+    <div className="space-y-4">
+      <Card title="Proibições Gerais">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <ul className="space-y-1.5 text-sm">
+            <li>
+              • <span className="font-medium">Comércio:</span> Proibida a venda de produtos ou
+              serviços particulares na empresa.
+            </li>
+            <li>
+              • <span className="font-medium">Substâncias:</span> Proibido consumo de álcool ou
+              substâncias psicoativas (ou estar sob efeito delas).
+            </li>
+            <li>
+              • <span className="font-medium">Uniforme:</span> Obrigatório estar devidamente
+              uniformizado para ingressar na empresa.
+            </li>
+            <li>
+              • <span className="font-medium">Alimentação:</span> Permitida apenas em espaços
+              específicos (refeitório).
+            </li>
+          </ul>
+          <ul className="space-y-1.5 text-sm">
+            <li>
+              • <span className="font-medium">Comunicação:</span> Proibido dar entrevistas ou
+              declarações à imprensa sem autorização.
+            </li>
+            <li>
+              • <span className="font-medium">Sigilo:</span> Proibida a divulgação de informações
+              não autorizadas sobre clientes.
+            </li>
+            <li>
+              • <span className="font-medium">Fumo:</span> Permitido apenas em áreas designadas para
+              esta finalidade.
+            </li>
+            <li>
+              • <span className="font-medium">Recursos:</span> Proibido o uso de máquinas e
+              equipamentos para fins pessoais.
+            </li>
+          </ul>
+        </div>
+      </Card>
+
+      <Card title="Regras Específicas: Setor Fabril">
+        <p className="text-sm mb-3 font-medium text-destructive">
+          O descumprimento destas normas compromete a segurança coletiva e está sujeito a
+          penalidades:
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 bg-muted/30 p-3 rounded-lg">
+          <ul className="space-y-2 text-sm">
+            <li className="flex items-start gap-2">
+              <span className="font-bold">1. EPIs:</span> Acesso permitido apenas com o uso
+              obrigatório e correto dos equipamentos de proteção.
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold">2. Adornos:</span> Proibido o uso de anéis, brincos
+              grandes, piercings, bonés e óculos de sol.
+            </li>
+          </ul>
+          <ul className="space-y-2 text-sm">
+            <li className="flex items-start gap-2 text-destructive font-semibold">
+              <span>📵 Celular:</span>
+              <span>O uso de telefone celular durante o horário de trabalho não é permitido.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold">🎰 Jogos:</span> Proibida a prática de jogos de azar nas
+              dependências da empresa.
+            </li>
+          </ul>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function Patrimonial() {
+  return (
+    <div className="space-y-4">
+      <Card title="Conservação de Recursos e Equipamentos">
+        <p className="text-sm">
+          É responsabilidade de todos manter a conservação e o uso adequado da estrutura física e
+          recursos fornecidos. O desperdício ou má utilização geram prejuízos e comprometem a
+          eficiência.
+        </p>
+        <div className="mt-3 p-3 bg-muted/50 rounded-lg border border-warning/20">
+          <p className="text-xs font-medium text-amber-700 dark:text-amber-400">
+            ⚠️ ATENÇÃO: Danos causados aos bens da empresa por negligência podem resultar em
+            exigência de ressarcimento via desconto em folha de pagamento.
+          </p>
+        </div>
+      </Card>
+
+      <Card title="Utilização da Frota de Veículos">
+        <p className="text-sm">
+          O uso dos veículos é regulamentado pelo "Procedimento para Utilização e Controle da
+          Frota". O colaborador declara ciência deste documento desde a sua admissão.
+        </p>
+        <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-destructive">
+          <span>🚫 Proibição:</span>
+          <span>Circular com veículos da empresa entre 19h00 e 06h00 durante viagens.</span>
+        </div>
+      </Card>
+      <Card title="Recursos de Tecnologia da Informação (TI)">
+        <div className="grid gap-4 sm:grid-cols-2 text-sm">
+          <div className="space-y-2">
+            <p className="font-medium underline">Diretrizes de Uso:</p>
+            <ul className="space-y-1">
+              <li>
+                • <span className="font-medium">Monitoramento:</span> Os recursos tecnológicos podem
+                ser monitorados pela empresa.
+              </li>
+              <li>
+                • <span className="font-medium">E-mail/Teams:</span> Uso restrito a comunicações
+                profissionais e atividades do cargo.
+              </li>
+              <li>
+                • <span className="font-medium">Uso Pessoal:</span> Deve ser eventual e baseado
+                estritamente no bom senso.
+              </li>
+            </ul>
+          </div>
+          <div className="space-y-2">
+            <p className="font-medium underline text-destructive">Proibições Estritas:</p>
+            <p className="text-xs leading-relaxed">
+              É totalmente proibido transmitir ou receber conteúdos de natureza sexual, insultos
+              étnicos, raciais, ou qualquer material de cunho abusivo, ofensivo ou obsceno.
+            </p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function BensParticulares() {
+  return (
+    <div className="space-y-4">
+      <Card title="Estacionamento Interno">
+        <p className="text-sm">
+          O uso do estacionamento é permitido aos colaboradores até o limite das vagas disponíveis.
+          Para usufruir, é necessário o preenchimento da{" "}
+          <strong>"Solicitação do Uso do Estacionamento e Termo de Responsabilidade"</strong>.
+        </p>
+
+        <div className="grid gap-4 sm:grid-cols-2 mt-4">
+          <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/30">
+            <div className="mt-1">🅿️</div>
+            <div>
+              <p className="text-sm font-bold">Estacionamento de Ré</p>
+              <p className="text-xs text-muted-foreground">
+                Por medida de segurança, todos os veículos deverão ser estacionados obrigatoriamente
+                de ré.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/30">
+            <div className="mt-1">🔍</div>
+            <div>
+              <p className="text-sm font-bold">Revista de Porta-malas</p>
+              <p className="text-xs text-muted-foreground">
+                Procedimento padrão: os carros terão os porta-malas revistados tanto na entrada
+                quanto na saída.
+              </p>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card title="Responsabilidade">
+        <p className="text-sm text-muted-foreground italic">
+          O termo de responsabilidade pode ser emitido no ato da admissão ou solicitado ao
+          Departamento Pessoal a qualquer momento.
+        </p>
+      </Card>
+    </div>
+  );
+}
+
+function DireitosAIMagens() {
+  return (
+    <div className="space-y-4">
+      <Card title="Monitoramento e Segurança">
+        <p className="text-sm">
+          A empresa utiliza câmeras de circuito interno (CFTV) para fins de{" "}
+          <strong>segurança patrimonial</strong>. O colaborador está ciente de que sua imagem será
+          gravada diariamente durante a jornada de trabalho.
+        </p>
+        <div className="mt-2 p-2 bg-muted/50 rounded border-l-4 border-primary">
+          <p className="text-xs italic text-muted-foreground">
+            Nota: Todas as imagens captadas pelo sistema de segurança são de uso estritamente
+            confidencial.
+          </p>
+        </div>
+      </Card>
+
+      <Card title="Uso de Imagem e Comunicação">
+        <p className="text-sm">
+          Com o intuito de preservar o bom relacionamento e promover o crescimento da empresa, a
+          proximidade entre as pessoas é um pilar fundamental.
+        </p>
+        <div className="mt-3 flex items-start gap-3">
+          <div className="text-xl">📸</div>
+          <p className="text-sm">
+            A empresa poderá utilizar fotos ou vídeos dos colaboradores em suas ações internas e
+            materiais de divulgação, visando fortalecer o engajamento e a cultura organizacional.
+          </p>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function SaudeNoTrabalho() {
+  return (
+    <div className="space-y-4">
+      <Card title="Saúde Ocupacional">
+        <div className="flex flex-col sm:flex-row gap-4 items-start">
+          <div className="flex-1 space-y-3">
+            <p className="text-sm">
+              A Reptec preza pelo bem-estar de sua equipe e mantém um serviço de saúde ocupacional
+              especializado, prestado por uma empresa terceirizada referência no segmento.
+            </p>
+
+            <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <p className="text-sm font-medium text-foreground">🩺 Compromisso do Colaborador:</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                É dever de todos cumprir as normas de saúde e submeter-se aos{" "}
+                <strong>exames médicos obrigatórios</strong>
+                (admissionais, periódicos, etc.) conforme os programas de saúde da empresa.
+              </p>
+            </div>
+          </div>
+
+          <div className="hidden sm:block p-4 bg-muted rounded-full">
+            <span className="text-2xl">🏥</span>
+          </div>
+        </div>
+      </Card>
+
+      <Card title="Prevenção">
+        <p className="text-sm italic text-muted-foreground">
+          A participação nos programas de saúde é fundamental para garantirmos um ambiente de
+          trabalho seguro e monitorarmos a qualidade de vida de cada colaborador.
+        </p>
+      </Card>
+    </div>
+  );
+}
+
+function ProtecaoDeDados() {
+  return (
+    <div className="space-y-4">
+      <Card title="Segurança Digital e Equipamentos">
+        <div className="grid gap-4 sm:grid-cols-2 text-sm">
+          <ul className="space-y-1.5">
+            <li>
+              • <span className="font-medium">Identificação:</span> Seu acesso é pessoal e
+              intransferível. Você é responsável por todos os atos realizados com sua senha.
+            </li>
+            <li>
+              • <span className="font-medium">Softwares:</span> Proibida a instalação de programas
+              não homologados. Solicite instalações via e-mail.
+            </li>
+          </ul>
+          <ul className="space-y-1.5">
+            <li>
+              • <span className="font-medium">Dispositivos Pessoais:</span> Evite o uso de celulares
+              ou notebooks próprios. O uso só é permitido com autorização e auditoria.
+            </li>
+            <li>
+              • <span className="font-medium">Mídias Removíveis:</span> O usuário é responsável
+              pelos riscos ao conectar dispositivos USB ou HDs externos.
+            </li>
+          </ul>
+        </div>
+      </Card>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card title="Sigilo de Informações">
+          <p className="text-sm">
+            É terminantemente proibido compartilhar dados pessoais, documentos confidenciais ou
+            informações de clientes com terceiros não autorizados, seja dentro ou fora da Reptec.
+          </p>
+        </Card>
+        <Card title="Incidentes de Segurança">
+          <p className="text-sm">
+            Qualquer suspeita de vazamento ou incidente deve ser comunicada imediatamente ao{" "}
+            <strong>time de Segurança da Informação ou ao DPO</strong>.
+          </p>
+        </Card>
+      </div>
+
+      <Card title="Diretrizes para IA e Novas Tecnologias">
+        <div className="p-3 bg-destructive/5 border border-destructive/20 rounded-lg">
+          <p className="text-sm font-bold text-destructive mb-2">🚫 PROIBIÇÃO CRÍTICA:</p>
+          <p className="text-sm leading-relaxed">
+            É expressamente proibido inserir ou processar{" "}
+            <strong>dados de clientes, informações estratégicas ou dados pessoais</strong> em
+            plataformas de Inteligência Artificial (como ChatGPT) ou sistemas de terceiros sem
+            autorização prévia.
+          </p>
+          <p className="text-xs mt-2 text-muted-foreground italic">
+            O uso de IA deve ser responsável, transparente e alinhado às políticas da organização.
+          </p>
+        </div>
+      </Card>
+
+      <Card title="Conformidade">
+        <p className="text-sm text-center italic">
+          A observância destas políticas é obrigatória. Em caso de dúvida sobre o uso ou descarte de
+          informações, consulte a área responsável.
+        </p>
+      </Card>
+    </div>
+  );
+}
+
+function SegurancaDoTrabalho() {
+  return (
+    <div className="space-y-4">
+      <Card title="Compromisso com a Vida">
+        <p className="text-sm">
+          A segurança no ambiente de trabalho é um compromisso de todos. Adotamos medidas rigorosas
+          para prevenir acidentes e garantir que cada colaborador retorne para casa com sua
+          integridade preservada.
+        </p>
+      </Card>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card title="Prevenção de Acidentes">
+          <ul className="space-y-3 text-sm">
+            <li className="flex items-start gap-2">
+              <span className="text-primary">⚠️</span>
+              <span>
+                <strong>Atenção Plena:</strong> Observe sempre as normas de segurança, sinalizações
+                e procedimentos estabelecidos para sua área.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary">🧘</span>
+              <span>
+                <strong>Ergonomia:</strong> Adote boas práticas de postura para evitar lesões e
+                doenças ocupacionais relacionadas ao esforço repetitivo.
+              </span>
+            </li>
+          </ul>
+        </Card>
+
+        <Card title="Brigada de Incêndio">
+          <p className="text-sm">
+            Contamos com uma equipe de colaboradores treinados para atuar em emergências.
+          </p>
+          <ul className="mt-2 space-y-1.5 text-xs text-muted-foreground">
+            <li>• Combate a princípios de incêndio.</li>
+            <li>• Orientação em rotas de evacuação.</li>
+            <li>• Prestação de primeiros socorros.</li>
+          </ul>
+          <p className="mt-3 text-xs font-medium border-t pt-2">
+            Identifique os brigadistas do seu setor através da sinalização ou uniforme diferenciado.
+          </p>
+        </Card>
+      </div>
+
+      <Card title="Sinalização de Segurança">
+        <p className="text-sm italic text-center">
+          Nunca ignore uma placa de sinalização ou um aviso de segurança. Eles são a sua primeira
+          linha de defesa contra acidentes.
+        </p>
+      </Card>
+    </div>
+  );
+}
+function DiretrizesGerais() {
+  return (
+    <div className="space-y-4">
+      <Card title="Diretrizes de Proteção e Organização">
+        <div className="grid gap-4 sm:grid-cols-2 text-sm">
+          <ul className="space-y-2">
+            <li>
+              <span className="font-bold">🛡️ EPIs:</span> Uso obrigatório e correto conforme sua
+              função. Solicite a substituição imediata se houver danos.
+            </li>
+            <li>
+              <span className="font-bold">🧹 Organização:</span> Mantenha seu posto limpo. Um
+              ambiente organizado evita quedas e acidentes.
+            </li>
+            <li>
+              <span className="font-bold">🎓 Treinamentos:</span> A participação em capacitações de
+              segurança é obrigatória para sua atualização.
+            </li>
+          </ul>
+          <div className="bg-muted/50 p-3 rounded-lg border">
+            <p className="font-bold text-xs uppercase mb-1">Atenção ao "Quase Acidente":</p>
+            <p className="text-xs leading-relaxed">
+              É aquela situação onde o acidente não ocorreu por pouco. Relatar esses eventos é
+              essencial para corrigirmos o risco antes que alguém se machuque.
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card title="Contatos Internos">
+          <div className="space-y-2">
+            <div className="flex justify-between items-center border-b pb-1">
+              <span className="text-sm font-medium">RH</span>
+              <span className="font-mono text-primary">4051 / 4094 / 4037</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium">Segurança do Trabalho</span>
+              <span className="font-mono text-primary">4056</span>
+            </div>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-4 italic">
+            * Informe imediatamente qualquer incidente aos brigadistas ou cipeiros.
+          </p>
+        </Card>
+
+        <Card title="Telefones de Emergência (Externos)">
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-bold">Bombeiros</span>
+              <span className="bg-destructive text-destructive-foreground px-2 py-0.5 rounded font-mono">
+                193
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-bold">Ambulância (SAMU)</span>
+              <span className="bg-destructive text-destructive-foreground px-2 py-0.5 rounded font-mono">
+                192
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-bold">Polícia Militar</span>
+              <span className="bg-destructive text-destructive-foreground px-2 py-0.5 rounded font-mono">
+                190
+              </span>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      <Card title="">
+        <p className="text-center text-sm font-medium">
+          "A segurança no trabalho é um compromisso com a vida, garantindo que cada dia termine tão
+          seguro quanto começou."
+        </p>
+      </Card>
     </div>
   );
 }
